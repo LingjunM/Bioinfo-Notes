@@ -58,6 +58,7 @@ The short blue lines labelled Component# are the low level sequences used to bui
 An ordered and oriented set of contigs. A scaffold will contain gaps, but there is typically some evidence to support the contig order, orientation and gap size estimates.
 
 6. Unlocalized Sequence
+
 知道在哪个染色体上，不知道位置和方向
 A sequence found in an assembly that is associated with a specific chromosome but cannot be ordered or oriented on that chromosome.
 
