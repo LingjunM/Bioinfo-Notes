@@ -26,7 +26,8 @@ A major strategy to generate an assembly involves (1) isolation of genomic DNA f
 必须了解基因组组装的术语，才能挑选适合项目的基因组。
 
 以下是对相关术语的解释
-参考了[Genome Reference Consortium](https://www.ncbi.nlm.nih.gov/grc/help/)和[GATK](https://gatk.broadinstitute.org/hc/en-us/articles/360041155232-Reference-Genome-Components)
+
+参考了[Genome Reference Consortium](https://www.ncbi.nlm.nih.gov/grc/help/)和[GATK](https://gatk.broadinstitute.org/hc/en-us/articles/360041155232-Reference-Genome-Components)以及[UCSC](https://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/)
 
 1. component
 
@@ -60,16 +61,31 @@ An ordered and oriented set of contigs. A scaffold will contain gaps, but there 
 知道在哪个染色体上，不知道位置和方向
 A sequence found in an assembly that is associated with a specific chromosome but cannot be ordered or oriented on that chromosome.
 
+format: chr{chromosome number or name}_{sequence_accession}v{sequence_version}_random
+e.g. chr17_GL000205v2_random
+
 7. Unplaced Sequence
 知道来自基因组，不知道在哪个染色体上
 A sequence found in an assembly that is not associated with any chromosome.
 
-8. Alternate locus:
-A sequence that provides an alternate representation of a locus found in a largely haploid assembly. These sequences don't represent a complete chromosome sequence although there is no hard limit on the size of the alternate locus; currently these are less than 1 Mb. Previously these sequences have been referred to as "partial chromosomes", "alternate alleles", and "alternate haplotypes". However, these terms are confusing because they contain terms that have biological implications. Diploid assemblies (which by definition are from a single individual) should not have alternate loci representations. Multiple scaffolds from different loci that are considered to be part of the same haplotype should be grouped into alternate locus groups (e.g. mouse 129/Sv group). Note: an alternate locus group was previously considered an alternate partial assembly.
-Alternate contigs, alternate scaffolds or alternate loci allow for representation of diverging haplotypes in regions that are too complex for a single representation. See the document on the Human genome reference builds for more discussion on the purpose and usage of ALT contigs.
+format: chrUn_{sequence_accession}v{sequence_version}
+e.g. chrUn_GL000220v1
+
+8. Alternate locus/ALT contigs
+
+参考基因组存在的主要依据是人类99.9%的序列是一致的。但是会存在一些序列在不同人群中不一致。例如49%人群该基因组特定位置为序列A，而49%人群则为序列B，都是正常的。但拿其中一种作为参考基因组都可能不太合适，因此标记出Alternate loci scaffolds。
+
+A sequence that provides an alternate representation of a locus found in a largely haploid assembly,allowing for representation of diverging haplotypes in regions that are too complex for a single representation. These sequences don't represent a complete chromosome sequence although there is no hard limit on the size of the alternate locus; currently these are less than 1 Mb.  These could either be NOVEL patch sequences, added through patch releases, or present in the initial assembly release.
+
+format: chr{chromosome number or name}_{sequence_accession}v{sequence_version}_alt
+e.g. chr6_GL000250v2_alt
 
 9. Chromosome Assembly:
-a relatively complete pseudo-molecule assembled from smaller sequences ([components](#COMPONENT)) that represent a biological chromosome. Relatively complete implies that some gaps may still be present in the assembly, but independent measures suggest that most of the sequence is represented by sequenced bases. Completeness is submitter defined. Understanding completeness is important for determining whether we submit chromosome level ASN for that chromosome.
+a relatively complete pseudo-molecule assembled from smaller sequences that represent a biological chromosome. Relatively complete implies that some gaps may still be present in the assembly, but independent measures suggest that most of the sequence is represented by sequenced bases. Completeness is submitter defined. Understanding completeness is important for determining whether we submit chromosome level ASN for that chromosome.
+
+format: chr{chromosome number or name} 
+
+e.g. chr1 or chrX, chrM for the mitochondrial genome.
 
 10. Assembly:
 a set of chromosomes, unlocalized and unplaced (random) sequences and alternate loci used to represent an organism's genome. Most current assemblies are a haploid representation of an organism's genome, although some loci may be represented more than once (see Alternate locus, above). This representation may be obtained from a single individual (e.g. chimp or mouse) or multiple individuals (e.g. human reference assembly). Except in the case of organisms which have been bred to homozygosity, the haploid assembly does not typically represent a single haplotype, but rather a mixture of haplotypes. As sequencing technology evolves, it is anticipated that diploid sequences representing an individual's genome will become available.
@@ -86,6 +102,9 @@ Pseudo-autosomal region. A region found on the X and Y chromosomes of mammals th
 
 14. PATCH:
 A genome patch is a sequence that is part of a minor genome release. These sequences either correct errors in the assembly (a FIX patch) or add additional alternate loci (a NOVEL patch). These sequences allow us to update the assembly information without disrupting the chromosome coordinate system. FIX patches will be removed at the next major assembly release as the changes will be rolled into the new assembly. NOVEL patches will be moved from the PATCHES assembly unit to a proper assembly unit.
+
+format: chr{chromosome number or name}_{sequence_accession}v{sequence_version}_fix/alt
+e.g. chr2_KN538362v1_fix     chr6_GL000250v2_alt
 
 **总结**
 
@@ -104,9 +123,14 @@ The next step is to have the scaffolds that belong to the same chromosome proper
 # 参考基因组版本
 
 GRC参考基因组联盟（Genome Reference Consortium）目前提供人、小鼠、大鼠等生物的参考基因组。对于人、鼠，主流的下载源有RefSeq、Ensembl、UCSC、GENCODE。
+
 目前最新的人参考基因组版本为GRCh38.p14，p14代表第14个patch，鼠同理，为GRCm39，选择好下载源以及参考基因组的版本十分重要。
-首先，不同源对同一版本的命名不同，对GRCh38.p14，有hg38 V44(UCSC)=GCF_000001405.40(RefSeq)=GRCh38 Release 110(Ensembl)=GRCh38 Release 44(GENCODE)
-此外，不同源对于参考基因组的染色体命名不同，例如Chr1(UCSC)=1(Ensembl)=NC_000001.11(RefSeq)
+
+首先，尽管序列相同，不同源对同一版本的命名不同，根据[GENCODE的记录](https://www.gencodegenes.org/human/releases.html)，对GRCh38.p14，有hg38 V44(UCSC)=GCF_000001405.40(RefSeq)=GRCh38 Release 110(Ensembl)=GRCh38 Release 44(GENCODE)
+
+此外，不同源对于参考基因组的染色体命名不同，例如Chr1(UCSC、GENCODE)=1(Ensembl)=NC_000001.11(RefSeq)
+
+如果需要转换ID，参考UCSC提供的对应版本的文件，'chromAlias.txt.gz'或者直接使用UCSC提供的python工具'chromToUcsc'，最好的选择是坚持使用同一个来源、同一个版本的基因组和注释。
 
 Different assemblies shift coordinates for loci and are released infrequently. In the human genome context, Hg19 and GRCh38/hg38 represent two different major assemblies. Comparing data from different assemblies requires lift-over tools that adjust genomic coordinates to match loci, at times imperfectly.
 
@@ -119,7 +143,12 @@ NCBI uses identifiers to distinguish between GenBank assemblies represented with
 
 # 参考基因组的选择
 
+https://gatk.broadinstitute.org/hc/en-us/articles/360035890951-Human-genome-reference-builds-GRCh38-or-hg38-b37-hg19
+
+对人类基因组，选择GRCh38/hg38即可，小版本p的变化不影响坐标，注意GRCh37=hg19。
 截至2025/01/15，GRC的决定仍然是["indefinitely postpone next coordinate-changing update (GRCh39)"](https://www.ncbi.nlm.nih.gov/grc)
 
-我的选择是ENCODE
+小鼠基因组选择GRCm39/mm39 或者 GRCm38/mm10
+
+下载源选择ENCODE，因为版本管理和界面都非常清楚，此外命名符合常理。
 
