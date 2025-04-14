@@ -1,3 +1,10 @@
+# lib
+
+library(ggthemes)
+library(tidyverse)
+library(ggplot2)
+library(ggrepel)
+
 # read data
 
 deg.data <- read_delim("limma-voom_luminalpregnant-luminallactate.txt",delim = "\t",show_col_types = FALSE,col_types = cols(ENTREZID = col_character()))
