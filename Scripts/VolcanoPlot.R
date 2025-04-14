@@ -69,6 +69,13 @@ p
 
 # or align label
 
+## nudge-x rely on min max logFC
+
+# > min(deg.data$logFC)
+# [1] -9.314159
+# > max(deg.data$logFC)
+# [1] 7.440954
+
 p = ggplot(deg.data,
            aes(x = logFC,y = -log10(adj.P.Val)
                )) +
