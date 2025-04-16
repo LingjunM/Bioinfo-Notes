@@ -20,7 +20,7 @@ one-sided version of Fisher’s exact test?
 
 # GSEA / Gene Set Enrichment Analysis
 
-[ref-Gene Set Enrichment Analysis](https://www.pathwaycommons.org/guide/primers/data_analysis/gsea/)
+[ref-ORA limits](https://www.pathwaycommons.org/guide/primers/data_analysis/gsea/)
 
 ORA approaches have three major limitations.
 
