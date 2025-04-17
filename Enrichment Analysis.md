@@ -41,6 +41,8 @@ ORA方法有几个局限：
 
 假定基因之间是独立的，通路之间是独立的。
 
+只能定位到功能，不能直接提示该通路是否被激活还是抑制。
+
 ## GSEA
 
 [ref-gsea explanation](https://biostatsquid.com/gene-set-enrichment-analysis/)
