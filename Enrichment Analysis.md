@@ -65,3 +65,15 @@ ES曲线
 
 
 
+NOM p-value	Nominal p value; that is, the statistical significance of the enrichment score. The nominal p value is not adjusted for gene set size or multiple hypothesis testing; therefore, it is of limited use in comparing gene sets.
+FDR q-value	False discovery rate; that is, the estimated probability that the normalized enrichment score represents a false positive finding.
+FWER p-value	Familywise-error rate; that is, a more conservatively estimated probability that the normalized enrichment score represents a false positive finding. Because the goal of GSEA is to generate hypotheses, the GSEA team recommends focusing on the FDR statistic.
+RANK AT MAX	The position in the ranked list at which the maximum enrichment score occurred. The more interesting gene sets achieve the maximum enrichment score near the top or bottom of the ranked list; that is, the rank at max is either very small or very large.
+
+$` \text{Signal Strength} = (\text{Tag \%}) \cdot \left(1 - \text{List \%}\right) \cdot \frac{N}{N - N_h} `$
+Tags. The percentage of gene hits before (for positive ES) or after (for negative ES) the peak in the running enrichment score. This gives an indication of the percentage of genes contributing to the enrichment score.
+List. The percentage of genes in the ranked gene list before (for positive ES) or after (for negative ES) the peak in the running enrichment score. This gives an indication of where in the list the enrichment score is attained.
+Signal. The enrichment signal strength that combines the two previous statistics:
+
+where N is the number of genes in the list and Nh is the number of genes in the gene set. If the gene set is entirely within the first Nh positions in the list, then the signal strength is maximal or 100%. If the gene set is spread throughout the list, then the signal strength decreases towards 0%.
+
