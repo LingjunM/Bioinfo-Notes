@@ -38,7 +38,7 @@ and appear to be less expressed than those same genes in Sample B.
 
 | **Normalization Method** | **Description** | **Accounted Factors** | **Recommendations for Use** |
 |--------------------------|------------------|------------------------|------------------------------|
-| **CPM** (Counts Per Million) | Counts scaled by the total number of reads | Sequencing depth | gene count comparisons between replicates of the same sample group;**Not suitable** for within-sample comparisons or differential expression (DE) analysis |
+| **CPM/RPM** (Counts Per Million) | Counts scaled by the total number of reads | Sequencing depth | gene count comparisons between replicates of the same sample group;**Not suitable** for within-sample comparisons or differential expression (DE) analysis |
 | **TPM** (Transcripts Per Kilobase Million) | Counts per kilobase of transcript length per million mapped reads | Sequencing depth, gene length | gene comparisons within a single sample or between samples from the same group;**Not suitable** for DE analysis |
 | **RPKM / FPKM**(reads/fragments per kilobase of exon per million reads/fragments mapped) | Similar to TPM | Sequencing depth, gene length | gene count comparisons between genes within a sample;**Not suitable** for between-sample comparisons or DE analysis |
 | **DESeq2’s Median of Ratios** | counts divided by sample-specific size factors determined by median ratio of gene counts relative to geometric mean per gene | Sequencing depth, RNA composition |  comparing gene counts across samples and for differential expression analysis;**Not suitable** for within-sample  comparisons |
@@ -46,11 +46,21 @@ and appear to be less expressed than those same genes in Sample B.
 
 ---
 
+# formula
 
+a = geneA count
+m = total count
+L = geneA length, **kb**(计算方式有争议)
 
+CPM/RPM = a/m * 10^6
+RPKM = a/(mL) * 10^6 (Reads as count)
+FPKM = a/(mL) * 10^6 (Fragments as count)
 
+RPKM is for single end RNA-seq
+FPKM is very similar to RPKM, but for paired end RNA-seq.
 
+TPM =  x/ ∑(x) * 10^6, x= a/L, ∑(x) = total genes
 
-
+TPM = FPKM / (∑(FPKM)) * 10^6
 
 
