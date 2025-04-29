@@ -128,9 +128,16 @@ gse.kegg = gseKEGG(geneList = geneList,
 
 
 
+# warning
 
+警告: 载入时'package:stats'可能无用 /
+warning: 'package:stats' may not be available when loading 
 
+根据 rstudio/rstudio#3946  以及 rstudio/rstudio#7438，这是RStudio引发的问题，无需担心。
 
+[可能的解决办法](https://github.com/yihui/litedown/commit/182e89a)
+
+根据 Calvagone/campsis#157， 有的包可能已经解决，但有的尚未解决，[参考](https://stackoverflow.com/questions/27623901/r-warning-packagestats-may-not-be-available-when-loading)
 
 
 
