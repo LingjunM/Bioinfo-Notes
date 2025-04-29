@@ -50,17 +50,32 @@ and appear to be less expressed than those same genes in Sample B.
 
 a = geneA count
 m = total count
-L = geneA length, **kb**(计算方式有争议)
+L = geneA length, **bp**(计算方式有争议)
 
 CPM/RPM = a/m * 10^6
-RPKM = a/(mL) * 10^6 (Reads as count)
-FPKM = a/(mL) * 10^6 (Fragments as count)
 
-RPKM is for single end RNA-seq
+RPKM = a/(mL) * 10^9 (Reads as count)
+
+FPKM = a/(mL) * 10^9 (Fragments as count)
+
+RPKM is for single end RNA-seq;
 FPKM is very similar to RPKM, but for paired end RNA-seq.
 
 TPM =  x/ ∑(x) * 10^6, x= a/L, ∑(x) = total genes
 
 TPM = FPKM / (∑(FPKM)) * 10^6
+
+While TPM and RPKM/FPKM normalization methods both account for sequencing depth and gene length, RPKM/FPKM are not recommended. The reason is that the normalized count values output by the RPKM/FPKM method are not comparable between samples.Using RPKM/FPKM normalization, the total number of RPKM/FPKM normalized counts for each sample will be different. 
+
+## DESeq2
+
+Since tools for differential expression analysis are comparing the counts between sample groups for the same gene, gene length does not need to be accounted for by the tool. However, sequencing depth and RNA composition do need to be taken into account.
+
+The median of ratios method makes the assumption that not ALL genes are differentially expressed. This method is robust to imbalance in up-/down-regulation and large numbers of differentially expressed genes.
+
+Usually these size factors are around 1, if you see large variations between samples it is important to take note since it might indicate the presence of extreme outliers.
+
+DESeq2 doesn’t actually use normalized counts, rather it uses the raw counts as input and models the normalization inside the Generalized Linear Model (GLM).
+
 
 
